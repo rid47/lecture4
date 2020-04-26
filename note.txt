@@ -1,0 +1,99 @@
+SQL:
+
+INSERT INTO flights
+(origin, destination, duration)
+VALUES ('New York', 'Paris', 540);
+
+Alchemy:
+
+flight = Flight(origin="New York", destination="Paris", duration=540)
+db.session.add(flight)
+
+SQL: 
+
+SELECT * FROM flights;
+
+Alchemy:
+
+Flight.query.all()
+
+
+SQL: 
+
+SELECT * FROM flights WHERE origin = 'Paris';
+
+Alchemy:
+
+Flight.query.filter(origin='Paris').all()
+
+SQL: 
+
+SELECT * FROM flights WHERE origin = 'Paris' LIMIT 1;
+
+Alchemy:
+
+Flight.query.filter(origin='Paris').first()
+
+
+SQL: 
+
+SELECT COUNT(*) FROM flights WHERE origin = 'Paris';
+
+Alchemy:
+
+Flight.query.filter_by(origin='Paris').count()
+
+
+SQL: 
+
+SELECT * FROM flights WHERE id = 28;
+
+Alchemy:
+
+Flight.query.filter_by(id=28).first()
+Flight.query.get(28)
+
+SQL: 
+
+UPDATE flights SET duration = 280 WHERE id = 6;
+
+Alchemy:
+
+flight = Flight.query.get(6)
+flight.duration = 280
+
+
+SQL: 
+
+DELETE FROM flights WHERE id=28;
+
+Alchemy:
+
+flight = Flight.query.get(6)
+db.session.delete(flight)
+
+
+SQL:
+
+SELECT * FROM flights WHERE origin != "Paris"
+
+Alchemy:
+
+Flight.query.filter(Flight.origin!="Paris").all()
+
+SQL:
+
+SELCT * FROM flights WHERE origin IN ("Paris", "Tokyo")
+
+Alchemy:
+
+Flight.query.filter(Flight.origin.in_(["Tokyo", "Paris"])).all()
+
+SQL:
+
+SELECT * FROM flights JOIN passengers ON flight.id = passengers.flight_id;
+
+Alchemy:
+
+db.session.query(Flight, Passenger).filter(Flight.id == Passenger.flight_id).all()
+
